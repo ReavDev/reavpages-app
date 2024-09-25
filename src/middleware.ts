@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { apiAuthPrefix } from './routes'
 
-const MOCK_DOMAIN = 'reavdev.com'
+const MOCK_DOMAIN = 'reavpages.com'
 const PORT = process.env.PORT || 3000
 
 export default async function middleware(req: NextRequest) {
