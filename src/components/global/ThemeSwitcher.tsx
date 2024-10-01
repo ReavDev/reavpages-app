@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Moon, Monitor, Sun } from 'lucide-react'
 import { inDevEnvironment, cn } from '@/utils'
 import { useTheme } from '@/hooks/theme'
+import { toast } from 'sonner'
 
 export default function ThemeSwitcher() {
  const [isBetaMode, setIsBetaMode] = useState(false)
@@ -30,7 +31,7 @@ export default function ThemeSwitcher() {
   if (isBetaMode || inDevEnvironment) {
    updateTheme(newTheme)
   } else {
-   alert('Please accept beta mode to change the theme.')
+   toast.warning('Please accept beta mode to change the theme.')
   }
  }
 

@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SessionProvider } from 'next-auth/react'
 import { useTheme } from '@/hooks/theme'
 import ThemeSwitcher from '@/components/global/ThemeSwitcher'
+import { Toaster as Sonner } from '@ui/sonner'
 
 const MINUTE = 1000 * 60
 
@@ -78,6 +79,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
    <QueryClientProvider client={queryClient}>
     {children}
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
+    <Sonner richColors expand={true} position="top-right" />
     <ThemeSwitcher />
    </QueryClientProvider>
   </SessionProvider>
