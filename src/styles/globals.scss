@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --radius: 0.5rem;
-  }
+ :root {
+  --radius: 0.5rem;
+ }
 }
 
 @keyframes motionBG {
-  0% {
-    background-position: 100% 0;
-  }
-  50% {
-    background-position: 0 100%;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+ 0% {
+  background-position: 100% 0;
+ }
+ 50% {
+  background-position: 0 100%;
+ }
+ 100% {
+  background-position: 100% 0;
+ }
 }
 
 #reavdev {
-  background-size: 200% 200%;
-  animation: motionBG 5s ease infinite;
+ background-size: 200% 200%;
+ animation: motionBG 5s ease infinite;
 }
