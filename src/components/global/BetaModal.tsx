@@ -2,30 +2,39 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useThemeState } from '@/hooks/theme'
+import { useTheme } from '@/hooks/theme'
+import useGlobal from '@/hooks/global'
 
 export default function BetaModal() {
- const [showModal, setShowModal] = useState(false)
- const { isDark } = useThemeState()
+ const { setShowBetaModal, showBetaModal } = useGlobal()
+ const { updateTheme } = useTheme()
 
  useEffect(() => {
   const betaAccepted = localStorage.getItem('betaAccepted')
   if (!betaAccepted) {
-   setShowModal(true)
+   setShowBetaModal(true)
+   updateTheme('light')
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [])
 
  const handleAcceptBeta = () => {
   localStorage.setItem('betaAccepted', 'true')
-  setShowModal(false)
+  setShowBetaModal(false)
+  updateTheme('system')
+ }
+
+ const handleCancel = () => {
+  localStorage.setItem('betaAccepted', 'false')
+  setShowBetaModal(false)
+
+  updateTheme('light')
  }
 
  return (
-  <div
-   className={` ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}
-  >
+  <div className="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
    <AnimatePresence>
-    {showModal && (
+    {showBetaModal && (
      <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -36,19 +45,17 @@ export default function BetaModal() {
        initial={{ scale: 0.9, y: 50 }}
        animate={{ scale: 1, y: 0 }}
        exit={{ scale: 0.9, y: 50 }}
-       className={`w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800 ${
-        isDark ? 'text-white' : 'text-gray-900'
-       }`}
+       className="w-full max-w-md rounded-lg bg-white p-6 text-gray-900 shadow-xl"
       >
        <h2 className="mb-4 text-2xl font-bold">Welcome to Beta Mode</h2>
        <p className="mb-6">
         You are about to enter beta mode. This version may contain experimental
-        features. Do you wish to proceed?
+        features, including dark mode. Do you wish to proceed?
        </p>
        <div className="flex justify-end space-x-4">
         <button
-         onClick={() => setShowModal(false)}
-         className="rounded bg-gray-200 px-4 py-2 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+         onClick={handleCancel}
+         className="rounded bg-gray-200 px-4 py-2 transition-colors hover:bg-gray-300"
         >
          Cancel
         </button>
@@ -67,31 +74,26 @@ export default function BetaModal() {
  )
 }
 
-export const UsingBetaMode = () => {
+export function UsingBetaMode() {
  const [isBetaAccepted, setIsBetaAccepted] = useState(false)
+ const { theme } = useTheme()
+
  useEffect(() => {
-  const betaAccepted = localStorage.getItem('betaAccepted')
-  if (betaAccepted) {
-   setIsBetaAccepted(true)
-  }
+  const betaAccepted = localStorage.getItem('betaAccepted') === 'true'
+  setIsBetaAccepted(betaAccepted)
  }, [])
+
+ const isDark = theme === 'dark' && isBetaAccepted
+
  return (
-  <div className="">
+  <div className="fixed top-0 w-full">
    {isBetaAccepted && (
-    <div className="bg-green-100 p-4 dark:bg-green-800">
-     <p className="text-green-800 dark:text-green-100">
-      Beta mode is active. Enjoy the new features!
+    <div className={isDark ? 'bg-green-800' : 'bg-yellow-100'}>
+     <p className={`p-4 ${isDark ? 'text-green-100' : 'text-green-800'}`}>
+      Beta mode is active. Dark mode is now available!
      </p>
     </div>
    )}
-
-   {/* : (
-    <div className="rounded bg-yellow-100 p-4 dark:bg-yellow-800">
-     <p className="text-yellow-800 dark:text-yellow-100">
-      Beta mode is not active. Accept the beta to see new features.
-     </p>
-    </div>
-   )} */}
   </div>
  )
 }

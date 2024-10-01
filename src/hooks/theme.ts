@@ -1,30 +1,41 @@
 import { create } from 'zustand'
-import { persist, PersistStorage } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
-type StateProps = {
-    isDark: boolean
-    updateTheme: (state: boolean) => void
-}
-const storage: PersistStorage<StateProps> = {
-    getItem: (name) => {
-        const str = localStorage.getItem(name)
-        if (!str) return null
-        return JSON.parse(str)
-    },
-    setItem: (name, value) => {
-        localStorage.setItem(name, JSON.stringify(value))
-    },
-    removeItem: (name) => localStorage.removeItem(name),
+type ThemeProps = 'light' | 'dark' | 'system'
+
+interface ThemeState {
+    theme: ThemeProps
+    setTheme: (theme: ThemeProps) => void
 }
 
-export const useThemeState = create<StateProps>()(
+export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
-            isDark: false,
-            updateTheme: (state) => {
-                set({ isDark: state })
-            },
+            theme: 'system',
+            setTheme: (newTheme) => set({ theme: newTheme }),
         }),
-        { name: 'theme_state', storage }
+        {
+            name: 'theme-storage',
+            storage: createJSONStorage(() => localStorage),
+        }
     )
 )
+
+export function useTheme() {
+    const { theme, setTheme } = useThemeStore()
+
+    const updateTheme = (newTheme: ThemeProps) => {
+        setTheme(newTheme)
+        if (newTheme === 'system') {
+            document.documentElement.classList.remove('dark', 'light')
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark')
+            }
+        } else {
+            document.documentElement.classList.remove('dark', 'light')
+            document.documentElement.classList.add(newTheme)
+        }
+    }
+
+    return { theme, updateTheme }
+}
