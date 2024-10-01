@@ -6,9 +6,11 @@ import { Moon, Monitor, Sun } from 'lucide-react'
 import { inDevEnvironment, cn } from '@/utils'
 import { useTheme } from '@/hooks/theme'
 import { toast } from 'sonner'
+import useGlobal from '@/hooks/global'
 
 export default function ThemeSwitcher() {
  const [isBetaMode, setIsBetaMode] = useState(false)
+ const { setShowBetaModal } = useGlobal()
 
  const { updateTheme, theme } = useTheme()
 
@@ -32,6 +34,7 @@ export default function ThemeSwitcher() {
    updateTheme(newTheme)
   } else {
    toast.warning('Please accept beta mode to change the theme.')
+   setShowBetaModal(true)
   }
  }
 

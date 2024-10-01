@@ -3,15 +3,16 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/hooks/theme'
+import useGlobal from '@/hooks/global'
 
 export default function BetaModal() {
- const [showModal, setShowModal] = useState(false)
+ const { setShowBetaModal, showBetaModal } = useGlobal()
  const { updateTheme } = useTheme()
 
  useEffect(() => {
   const betaAccepted = localStorage.getItem('betaAccepted')
   if (!betaAccepted) {
-   setShowModal(true)
+   setShowBetaModal(true)
    updateTheme('light')
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -19,13 +20,13 @@ export default function BetaModal() {
 
  const handleAcceptBeta = () => {
   localStorage.setItem('betaAccepted', 'true')
-  setShowModal(false)
+  setShowBetaModal(false)
   updateTheme('system')
  }
 
  const handleCancel = () => {
   localStorage.setItem('betaAccepted', 'false')
-  setShowModal(false)
+  setShowBetaModal(false)
 
   updateTheme('light')
  }
@@ -33,7 +34,7 @@ export default function BetaModal() {
  return (
   <div className="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
    <AnimatePresence>
-    {showModal && (
+    {showBetaModal && (
      <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -93,43 +94,6 @@ export function UsingBetaMode() {
      </p>
     </div>
    )}
-  </div>
- )
-}
-
-export function ThemeSwitcher() {
- const { theme, updateTheme } = useTheme()
- const isBetaAccepted = localStorage.getItem('betaAccepted') === 'true'
-
- const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
-  if (isBetaAccepted) {
-   updateTheme(newTheme)
-  } else {
-   alert('Please accept beta mode to use dark theme.')
-  }
- }
-
- return (
-  <div className="flex items-center space-x-4">
-   <button
-    onClick={() => handleThemeChange('light')}
-    className={`rounded px-4 py-2 ${theme === 'light' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-   >
-    Light
-   </button>
-   <button
-    onClick={() => handleThemeChange('dark')}
-    className={`rounded px-4 py-2 ${theme === 'dark' && isBetaAccepted ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-    disabled={!isBetaAccepted}
-   >
-    Dark
-   </button>
-   <button
-    onClick={() => handleThemeChange('system')}
-    className={`rounded px-4 py-2 ${theme === 'system' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-   >
-    System
-   </button>
   </div>
  )
 }
