@@ -22,12 +22,12 @@ const AuthMain = () => {
         ifOn={selectedAuthTab === 'sign-up'}
         ifOnElse={selectedAuthTab === 'log-in'}
         onElse={
-          <FadeInOut>
+          <FadeInOut duration={3}>
             <LoginForm />
           </FadeInOut>
         }
       >
-        <FadeInOut>
+        <FadeInOut duration={3}>
           <SignUpForm />
         </FadeInOut>
       </IfElse>
