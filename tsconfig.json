@@ -19,8 +19,9 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // "typeRoots": ["./node_modules/@editorjs/editorjs/types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/editor/tools.ts"],
   "exclude": ["node_modules"]
 }
