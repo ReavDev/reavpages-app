@@ -1,11 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { apiAuthPrefix } from './routes'
+import { NextRequest, NextResponse } from 'next/server'
 
 const MOCK_DOMAIN = 'reavpages.com'
 const PORT = process.env.PORT || 3000
 
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req
+
+  // const cookie = cookies().get("session")?.value;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
 
@@ -20,9 +22,8 @@ export default async function middleware(req: NextRequest) {
   hostname = hostname.replace('www.', '')
   const searchParams = req.nextUrl.searchParams.toString()
 
-  const path = `${url.pathname}${
-    searchParams.length > 0 ? `?${searchParams}` : ''
-  }`
+  const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''
+    }`
 
   //rewrites for app pages
   if (hostname == `app.${MOCK_DOMAIN}`) {

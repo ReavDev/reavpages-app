@@ -3,26 +3,26 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --radius: 0.5rem;
-  }
+ :root {
+  --radius: 0.5rem;
+ }
 }
 
-.linear-overlay {
-  background: linear-gradient(
-    -75deg,
-    #005aba calc(var(--x) + 20%),
-    rgb(255, 255, 255) calc(var(--x) + 25%),
-    #005aba calc(var(--x) + 100%)
-  );
-  mask:
-    linear-gradient(black, black) content-box,
-    linear-gradient(black, black);
-  -webkit-mask:
-    linear-gradient(black, black) content-box,
-    linear-gradient(black, black);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
+@keyframes motionBG {
+ 0% {
+  background-position: 100% 0;
+ }
+ 50% {
+  background-position: 0 100%;
+ }
+ 100% {
+  background-position: 100% 0;
+ }
+}
+
+#reavdev {
+ background-size: 200% 200%;
+ animation: motionBG 5s ease infinite;
 }
 .customShadow{
   /* Shadow/100 */
