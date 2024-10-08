@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Moon, Monitor, Sun } from 'lucide-react'
-import { inDevEnvironment, cn } from '@/utils'
-import { useTheme } from '@/hooks/theme'
-import { toast } from 'sonner'
-import useGlobal from '@/hooks/global'
+import useGlobal from "@/hooks/global"
+import { useTheme } from "@/hooks/theme"
+import { cn, inDevEnvironment } from "@/utils"
+import { motion } from "framer-motion"
+import { Monitor, Moon, Sun } from "lucide-react"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 export default function ThemeSwitcher() {
  const [isBetaMode, setIsBetaMode] = useState(false)
@@ -15,7 +15,7 @@ export default function ThemeSwitcher() {
  const { updateTheme, theme } = useTheme()
 
  useEffect(() => {
-  const betaAccepted = localStorage.getItem('betaAccepted') === 'true'
+  const betaAccepted = localStorage.getItem("betaAccepted") === "true"
   setIsBetaMode(betaAccepted)
  }, [])
 
@@ -24,16 +24,16 @@ export default function ThemeSwitcher() {
  }
 
  const teams = [
-  { id: 'dark', icon: Moon },
-  { id: 'system', icon: Monitor },
-  { id: 'light', icon: Sun },
+  { id: "dark", icon: Moon },
+  { id: "system", icon: Monitor },
+  { id: "light", icon: Sun },
  ] as const
 
- const handleThemeChange = (newTheme: 'dark' | 'system' | 'light') => {
+ const handleThemeChange = (newTheme: "dark" | "system" | "light") => {
   if (isBetaMode || inDevEnvironment) {
    updateTheme(newTheme)
   } else {
-   toast.warning('Please accept beta mode to change the theme.')
+   toast.warning("Please accept beta mode to change the theme.")
    setShowBetaModal(true)
   }
  }
@@ -51,10 +51,10 @@ export default function ThemeSwitcher() {
       key={team.id}
       onClick={() => handleThemeChange(team.id)}
       className={cn(
-       'relative rounded-full p-2 transition-all duration-300',
+       "relative rounded-full p-2 transition-all duration-300",
        theme === team.id
-        ? 'bg-white text-gray-900'
-        : 'text-white hover:bg-white/10'
+        ? "bg-white text-gray-900"
+        : "text-white hover:bg-white/10"
       )}
      >
       <team.icon className="h-5 w-5" />
@@ -63,7 +63,7 @@ export default function ThemeSwitcher() {
        <motion.div
         className="absolute inset-0 z-10 rounded-full bg-white"
         layoutId="activeTeam"
-        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
        />
       )}
      </button>
