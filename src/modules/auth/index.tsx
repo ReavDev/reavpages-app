@@ -1,14 +1,13 @@
-'use client'
-import TabSwitcher from '@/components/menu/TabSwitcher'
-import React from 'react'
-import SignUpForm from './sign-up'
-import IfElse from '@/components/if-else'
-import FadeInOut from '@/components/fade'
-import LoginForm from './login'
+"use client"
+import FadeInOut from "@/components/fade"
+import IfElse from "@/components/if-else"
+import TabSwitcher from "@/components/menu/TabSwitcher"
+import React from "react"
+import LoginForm from "./login"
+import SignUpForm from "./sign-up"
 
 const AuthMain = () => {
-  const [selectedAuthTab, setSelectedAuthTab] =
-    React.useState<string>('sign-up')
+  const [selectedAuthTab, setSelectedAuthTab] = React.useState<string>("log-in")
   return (
     <>
       <div className="mt-10 w-full">
@@ -19,15 +18,15 @@ const AuthMain = () => {
         />
       </div>
       <IfElse
-        ifOn={selectedAuthTab === 'sign-up'}
-        ifOnElse={selectedAuthTab === 'log-in'}
+        ifOn={selectedAuthTab === "sign-up"}
+        ifOnElse={selectedAuthTab === "log-in"}
         onElse={
-          <FadeInOut duration={3}>
+          <FadeInOut duration={2}>
             <LoginForm />
           </FadeInOut>
         }
       >
-        <FadeInOut duration={3}>
+        <FadeInOut duration={2}>
           <SignUpForm />
         </FadeInOut>
       </IfElse>
@@ -35,7 +34,7 @@ const AuthMain = () => {
   )
 }
 const authTabs = [
-  { text: 'Sign Up', status: 'sign-up' },
-  { text: 'Log In', status: 'log-in' },
+  { text: "Sign Up", status: "sign-up" },
+  { text: "Log In", status: "log-in" },
 ]
 export default AuthMain

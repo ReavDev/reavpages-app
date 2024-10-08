@@ -1,43 +1,44 @@
-import { cn } from '@/utils'
-import { InputWrapperProps } from '@/types/component.types'
-import { VariantProps, cva } from 'class-variance-authority'
-import React from 'react'
-import InputWrapper from './input-wrapper'
+"use client"
+import { InputWrapperProps } from "@/types/component.types"
+import { cn } from "@/utils"
+import { VariantProps, cva } from "class-variance-authority"
+import React from "react"
+import InputWrapper from "./input-wrapper"
 export type Ref = HTMLInputElement
 
 export const inputClasses = cva(
   [
-    'focus:ring-0',
-    'transition',
-    'font-semibold',
-    'font-jaka',
-    'duration-200',
-    'ease-in-out',
-    'px-3',
-    'outline-none',
-    'font-normal',
-    'w-full',
+    "focus:ring-0",
+    "transition",
+    "font-semibold",
+    "font-jaka",
+    "duration-200",
+    "ease-in-out",
+    "px-3",
+    "outline-none",
+    "font-normal",
+    "w-full",
 
-    'border-0',
-    'text-brand-darkest',
+    "border-0",
+    "text-brand-darkest",
     // 'placeholder:font-bold',
     // "placeholder:text-opacity-80",
-    'disabled:cursor-not-allowed disabled:opacity-50',
-    'flex items-center file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#B1B1B1] placeholder:font-semibold',
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    "flex items-center file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#B1B1B1] placeholder:font-semibold",
   ],
   {
     variants: {
       variant: {
-        primary: ['bg-transparent', 'text-brand-text'],
+        primary: ["bg-transparent", "text-brand-text"],
       },
       inputSize: {
-        sm: ['h-9', 'text-sm', 'py-1'],
-        md: ['h-11', 'text-sm'],
+        sm: ["h-9", "text-sm", "py-1"],
+        md: ["h-11", "text-sm"],
       },
     },
     defaultVariants: {
-      variant: 'primary',
-      inputSize: 'md',
+      variant: "primary",
+      inputSize: "md",
     },
   }
 )
@@ -51,19 +52,19 @@ export interface InputProps
 
 const Input = React.forwardRef<
   Ref,
-  InputProps & Omit<InputWrapperProps, 'type'>
+  InputProps & Omit<InputWrapperProps, "type">
 >(
   (
     {
       value,
       onChange,
-      name = '',
-      type = 'text',
+      name = "",
+      type = "text",
       onBlur,
       onFocus,
       placeholder,
       isDisabled,
-      className = '',
+      className = "",
       variant,
       inputSize,
       readOnly,
@@ -84,7 +85,7 @@ const Input = React.forwardRef<
       >
         <input
           name={name}
-          type={type !== 'password' ? type : show ? 'text' : 'password'}
+          type={type !== "password" ? type : show ? "text" : "password"}
           onChange={onChange}
           value={value}
           id={name}
@@ -103,6 +104,6 @@ const Input = React.forwardRef<
   }
 )
 
-Input.displayName = 'Input'
+Input.displayName = "Input"
 
 export default Input

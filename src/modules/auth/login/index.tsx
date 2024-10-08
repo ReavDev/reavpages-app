@@ -1,13 +1,11 @@
 'use client'
-import React, { FC } from 'react'
-import Link from 'next/link'
-import Heading from '@/components/heading'
 import Button from '@/components/button'
+import Heading from '@/components/heading'
 import { Icons } from '@/components/icons'
 import Input from '@/components/input'
-import { LockKeyhole, Mail } from 'lucide-react'
-import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import Link from 'next/link'
 
 interface LoginValues {
   email: string

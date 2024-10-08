@@ -1,19 +1,20 @@
-import { cn } from '@/utils'
-import { InputWrapperProps } from '@/types/component.types'
-import { ErrorMessage } from '@hookform/error-message'
-import { Eye, EyeOff } from 'lucide-react'
-import { get } from 'react-hook-form'
-import Button from '../button'
-import { jaka, mona_sans_medium } from '@/fonts'
-import Icon from '../icon'
-import { Icons } from '../icons'
+"use client"
+import { jaka } from "@/fonts"
+import { InputWrapperProps } from "@/types/component.types"
+import { cn } from "@/utils"
+import { ErrorMessage } from "@hookform/error-message"
+import { Eye, EyeOff } from "lucide-react"
+import { get } from "react-hook-form"
+import Button from "../button"
+import Icon from "../icon"
+import { Icons } from "../icons"
 
 const InputWrapper: React.FC<InputWrapperProps> = ({
   children,
   name,
   label,
   isLoading = false,
-  type = 'text',
+  type = "text",
   errors,
   isShown,
   handleClick,
@@ -22,21 +23,21 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
   ...props
 }) => {
   const hasError = get(errors, name)
-  const bgColor = hasError ? 'bg-red-50' : (props.bg ?? 'bg-bran-gray')
+  const bgColor = hasError ? "bg-red-50" : (props.bg ?? "bg-bran-gray")
   const borderColor = hasError
-    ? 'border-red-600'
-    : (props.borderColor ?? 'border-[#DEDEDE]')
+    ? "border-red-600"
+    : (props.borderColor ?? "border-[#DEDEDE]")
 
   return (
     <div
       className={`relative w-full text-brand-inputText ${
-        props.isDisabled ? 'opacity-90' : 'opacity-100'
+        props.isDisabled ? "opacity-90" : "opacity-100"
       }`}
     >
       {label && (
         <label
           className={cn(
-            'text-left text-sm font-semibold capitalize text-brand-inputLabel',
+            "text-left text-sm font-semibold capitalize text-brand-inputLabel",
             jaka.className
           )}
           htmlFor={name}
@@ -45,10 +46,10 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
         </label>
       )}
       <div
-        className={`relative flex items-center overflow-hidden rounded-[6px] border transition ${
-          hasError ? 'border-red-600' : 'focus-within:border-brand-primary'
-        } ${wrapperClass} ${bgColor} ${borderColor} ${label ? 'mt-1' : ''} ${
-          type === 'select' ? 'cursor-not-allowed pr-1' : ''
+        className={`relative flex items-center overflow-hidden rounded-[8px] border transition ${
+          hasError ? "border-red-600" : "focus-within:border-brand-primary"
+        } ${wrapperClass} ${bgColor} ${borderColor} ${label ? "mt-1" : ""} ${
+          type === "select" ? "cursor-not-allowed pr-1" : ""
         }`}
       >
         {inputIcon && (
@@ -70,7 +71,7 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
 
         {/* password type switcher use to toggle password fields */}
 
-        {type === 'password' && !isLoading && (
+        {type === "password" && !isLoading && (
           <Button
             variant="link"
             tabIndex={1}

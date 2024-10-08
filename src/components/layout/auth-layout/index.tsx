@@ -1,8 +1,7 @@
-'use client'
-import Heading from '@/components/heading'
-import { chelsea_market } from '@/fonts'
-
-import React from 'react'
+"use client"
+import Heading from "@/components/heading"
+import { chelsea_market } from "@/fonts"
+import React from "react"
 
 interface AuthLayoutProps {
   children: React.ReactNode

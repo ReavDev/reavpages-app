@@ -1,9 +1,11 @@
-import { Slot, Slottable } from '@radix-ui/react-slot'
-import { VariantProps, cva } from 'class-variance-authority'
-import React from 'react'
-import { Icons } from '../icons'
-import { jaka } from '@/fonts'
-import { cn } from '@/utils'
+"use client"
+import { jaka } from "@/fonts"
+import { cn } from "@/utils"
+import { Slot, Slottable } from "@radix-ui/react-slot"
+import { VariantProps, cva } from "class-variance-authority"
+import Link from "next/link"
+import React from "react"
+import { Icons } from "../icons"
 
 export const buttonVariants = cva(
   `inline-flex gap-2 items-center relative border-0 justify-center transition-all duration-300 disabled:cursor-not-allowed whitespace-nowrap rounded-[8px] outline-none text-base font-medium focus:ring-2 focus:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 ${jaka.className}`,
@@ -11,40 +13,41 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-brand-primary text-white hover:bg- focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 active:ring-brand-primary',
+          "bg-brand-primary text-white hover:bg- focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 active:ring-brand-primary",
         destructive:
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90 ',
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 ",
 
         destructive_outline:
-          'bg-transperent text-brand-red border hover:bg-cod-50 focus:ring-brand-red focus:ring-2 focus:ring-offset-1 active:ring-brand-red',
+          "bg-transperent text-brand-red border hover:bg-cod-50 focus:ring-brand-red focus:ring-2 focus:ring-offset-1 active:ring-brand-red",
 
         outline:
-          'border-bunchpay-600 border text-bunchpay-600 hover:bg-bunchpay-50 focus:ring-bunchpay-600 focus:ring-2 focus:ring-offset-1 active:ring-bunchpay-600',
-        secondary: 'bg-bunchpay-50 text-bunchpay-600 hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-bunchpay-600 text-bunchpay-600',
-        ink: 'hover:bg-[#2684FC33] text-bunchpay-600 bg-[#2684FC33]',
-        wallet: 'bg-accent text-bunchpay-600',
-        link: 'text-bunchpay-600 underline-offset-4 hover:underline',
+          "border-brand-primary border text-brand-primary hover:bg-bunchpay-50 focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 active:ring-brand-primary",
+        secondary: "bg-bunchpay-50 text-brand-primary hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-brand-primary text-brand-primary focus:ring-brand-primary focus:ring-2  active:ring-brand-primary",
+        ink: "hover:bg-[#2684FC33] text-brand-primary bg-[#2684FC33]",
+        wallet: "bg-accent text-brand-primary",
+        link: "text-brand-primary underline-offset-4 hover:underline",
         cal_outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        cal_ghost: 'hover:bg-accent hover:text-accent-foreground',
-        bill: 'bg-white text-[#0C0C0C] focus:ring-bunchpay-600 focus:ring-2 focus:ring-offset-1 px-1',
-        neutral: 'bg-transparent text-inherit',
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        cal_ghost: "hover:bg-accent hover:text-accent-foreground",
+        bill: "bg-white text-[#0C0C0C] focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 px-1",
+        neutral: "bg-transparent text-inherit",
       },
       size: {
-        default: 'h-11 px-4 py-2',
-        sm: 'h-9 px-3 rounded-lg',
-        lg: 'h-11 px-8',
-        icon: 'h-10 w-10',
-        close: 'h-7 w-7',
+        default: "h-11 px-4 py-2",
+        sm: "h-9 px-3 rounded-lg",
+        lg: "h-11 px-8",
+        icon: "h-10 w-10",
+        close: "h-7 w-7",
       },
       fullWidth: {
-        true: 'w-full',
+        true: "w-full",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: "default",
+      size: "default",
     },
   }
 )
@@ -56,6 +59,7 @@ export interface ButtonProps
   rightIcon?: React.ReactNode
   asChild?: boolean
   isLoading?: boolean
+  href?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -68,16 +72,35 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       isLoading = false,
       disabled,
-      className = '',
+      className = "",
       asChild,
       fullWidth,
-      type = 'button',
+      href,
+      type = "button",
       ...others
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : 'button'
-
+    const Comp = asChild ? Slot : "button"
+    if (href) {
+      return (
+        <Link
+          href={href}
+          // @ts-expect-error
+          ref={ref}
+          {...others}
+          disabled={isLoading || disabled}
+          className={cn(
+            jaka.className,
+            buttonVariants({ variant, size, fullWidth, className })
+          )}
+        >
+          {leftIcon && leftIcon}
+          {children}
+          {rightIcon && rightIcon}
+        </Link>
+      )
+    }
     return (
       <Comp
         ref={ref}
@@ -127,6 +150,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 )
 
-Button.displayName = 'Button'
+Button.displayName = "Button"
 
 export default Button
