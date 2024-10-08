@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion } from "framer-motion"
 // import { BiChevronDown } from "react-icons/bi";
 
 interface Tab {
@@ -22,13 +21,13 @@ const TabSwitcher = ({
   isLoading = false,
   w,
 }: TabSwitcherProps) => {
-  const [showDetail, setShowDetail] = useState(false)
-  const activeText = tabs.find((tab) => tab.status === status)?.text
+  // const [showDetail, setShowDetail] = useState(false)
+  // const activeText = tabs.find((tab) => tab.status === status)?.text
 
   return (
     <div
       className={`rounded-lg rounded-b-none pb-1 ${
-        isLoading ? 'overflow-hidden bg-[#e8bb9b]' : 'bg-transparent'
+        isLoading ? "overflow-hidden bg-[#e8bb9b]" : "bg-transparent"
       }`}
     >
       {isLoading && (
@@ -42,14 +41,14 @@ const TabSwitcher = ({
             onClick={() => setStatus(tab.status)}
             className={`${
               status === tab.status &&
-              'relative flex items-center justify-center bg-transparent outline-none'
-            } h-9 px-5 ${w || 'w-fit'} w-full`}
+              "relative flex items-center justify-center bg-transparent outline-none"
+            } h-9 px-5 ${w || "w-fit"} w-full`}
           >
             <span
               className={`relative z-10 block text-center font-jaka text-xs capitalize transition-all duration-300 sm:text-sm ${
                 status === tab.status
-                  ? 'font-bold text-[#4B4B4B]'
-                  : 'font-medium text-[#959595]'
+                  ? "font-bold text-[#4B4B4B]"
+                  : "font-medium text-[#959595]"
               }`}
             >
               {tab.text}

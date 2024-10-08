@@ -1,9 +1,11 @@
-import { cn } from '@/utils'
-import { InputWrapperProps } from '@/types/component.types'
-import { VariantProps } from 'class-variance-authority'
-import React from 'react'
-import { inputClasses } from '.'
-import InputWrapper from './input-wrapper'
+"use client"
+import { InputWrapperProps } from "@/types/component.types"
+import { cn } from "@/utils"
+import { VariantProps } from "class-variance-authority"
+import React from "react"
+import { inputClasses } from "."
+import InputWrapper from "./input-wrapper"
+
 export type Ref = HTMLSelectElement
 
 export interface SelectProps
@@ -11,6 +13,7 @@ export interface SelectProps
     VariantProps<typeof inputClasses> {
   placeholder?: string
   isLoading?: boolean
+  options?: { value: string; label: string }[] // Assuming options structure
 }
 
 const CustomSelect = React.forwardRef<Ref, SelectProps & InputWrapperProps>(
@@ -21,8 +24,8 @@ const CustomSelect = React.forwardRef<Ref, SelectProps & InputWrapperProps>(
       name,
       onBlur,
       placeholder,
-      options,
-      className = 'cursor-pointer',
+      options = [], // Defaulting options to an empty array
+      className = "cursor-pointer",
       isDisabled,
       variant,
       inputSize,
@@ -31,6 +34,7 @@ const CustomSelect = React.forwardRef<Ref, SelectProps & InputWrapperProps>(
     ref
   ) => {
     const [fade, setFade] = React.useState(false)
+
     return (
       <InputWrapper
         type="select"
@@ -42,32 +46,37 @@ const CustomSelect = React.forwardRef<Ref, SelectProps & InputWrapperProps>(
           name={name}
           onChange={(e) => {
             setFade(true)
-            onChange && onChange(e)
+            if (onChange) {
+              onChange(e) // Ensure onChange gets called if provided
+            }
           }}
           value={value}
           defaultValue={placeholder}
           id={name}
           ref={ref}
           onBlur={onBlur}
-          style={{ color: !fade ? '#818181' : '' }}
+          style={{ color: !fade ? "#818181" : "" }}
           className={cn(inputClasses({ variant, inputSize }), className)}
           disabled={isDisabled}
         >
-          <option value={''} hidden>
+          <option value={""} hidden>
             {placeholder}
           </option>
-          {options &&
-            options.map((item) => (
-              <option value={item.value} key={item.label}>
-                {item.label}
-              </option>
-            ))}
+          {
+            options && options.length > 0
+              ? options.map((item) => (
+                  <option value={item.value} key={item.label}>
+                    {item.label}
+                  </option>
+                ))
+              : null /* Explicitly returning null when no options */
+          }
         </select>
       </InputWrapper>
     )
   }
 )
 
-CustomSelect.displayName = 'CustomSelect'
+CustomSelect.displayName = "CustomSelect"
 
 export default CustomSelect

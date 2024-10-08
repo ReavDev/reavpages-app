@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { jaka } from "@/fonts"
 import { cn } from "@/utils"
@@ -86,7 +87,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Link
           href={href}
-          // @ts-expect-error
+          // @ts-expect-error next.js
           ref={ref}
           {...others}
           disabled={isLoading || disabled}

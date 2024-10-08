@@ -1,36 +1,13 @@
-'use client'
-import Button from '@/components/button'
-import Heading from '@/components/heading'
-import { Icons } from '@/components/icons'
-import Input from '@/components/input'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-
-interface LoginValues {
-  email: string
-  password: string
-}
-
-// const validationSchema = yup.object({
-//   email: yup.string().required("Email is required").email("Email is invalid"),
-//   password: yup.string().required("Password is required"),
-// });
+"use client"
+import Button from "@/components/button"
+import Heading from "@/components/heading"
+import { Icons } from "@/components/icons"
+import Input from "@/components/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
 
 const LoginForm = () => {
-  // const {
-  //   register,
-  //   formState: { errors },
-  //   handleSubmit,
-  // } = useForm<LoginValues>({
-  //   resolver: yupResolver(validationSchema),
-  // });
-  // const authLogin = useAuthLogin();
-
-  // const handleLogin = (data: LoginValues) => {
-  //   console.log(data);
-  // };
-
   return (
     <div className="">
       <Heading size="h6" className="-mt-2 mb-5 text-[#1E1E1E]">
@@ -78,7 +55,7 @@ const LoginForm = () => {
               </Label>
             </div>
             <Link
-              href={'forgot-password'}
+              href={"forgot-password"}
               className="mt-1 font-jaka text-xs font-medium text-brand-primary"
             >
               Forgot password?
@@ -87,7 +64,7 @@ const LoginForm = () => {
         </div>
         <Button fullWidth>Continue</Button>
         <p className="text-sm">
-          By signing up, I agree to the ReavHub&apos;s{' '}
+          By signing up, I agree to the ReavHub&apos;s{" "}
           <Link href="/terms" className="font-medium text-brand-primary">
             Terms of Service
           </Link>

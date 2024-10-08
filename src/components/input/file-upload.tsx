@@ -1,18 +1,19 @@
-import Button from "@/components/button";
-import Icon from "@/components/icon";
-import { InputWrapperProps } from "@/types/component.types";
-import { ErrorMessage } from "@hookform/error-message";
-import { Trash, Upload } from "lucide-react";
-import Image from "next/image";
-import React from "react";
-import { get } from "react-hook-form";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Button from "@/components/button"
+import Icon from "@/components/icon"
+import { InputWrapperProps } from "@/types/component.types"
+import { ErrorMessage } from "@hookform/error-message"
+import { Trash, Upload } from "lucide-react"
+import Image from "next/image"
+import React from "react"
+import { get } from "react-hook-form"
 
-export type Ref = HTMLInputElement;
+export type Ref = HTMLInputElement
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  value: any;
-  handleDeleteImage: () => void;
+  value: any
+  handleDeleteImage: () => void
 }
 
 const ImageUpload = React.forwardRef<
@@ -24,34 +25,31 @@ const ImageUpload = React.forwardRef<
       value,
       onChange,
       name,
-      type = "text",
       onBlur,
       placeholder = "Click to upload",
       isDisabled,
-      className = "",
       handleDeleteImage,
       errors,
       label,
-      ...others
     },
     ref
   ) => {
-    const hasError = get(errors, name);
-    const bgColor = hasError ? "bg-red-50" : "bg-transparent";
-    const brColor = hasError ? "border-red-600" : "border-[#999]";
+    const hasError = get(errors, name)
+    const bgColor = hasError ? "bg-red-50" : "bg-transparent"
+    const brColor = hasError ? "border-red-600" : "border-[#999]"
 
     const handleLabelClick = () => {
-      const fileInputRef = document.getElementById(name);
+      const fileInputRef = document.getElementById(name)
       if (fileInputRef) {
-        fileInputRef?.click();
+        fileInputRef?.click()
       }
-    };
-    const isFilePresent = value && value?.[0];
+    }
+    const isFilePresent = value && value?.[0]
     return (
-      <div className="relative pt-1 space-y-1 pb-3">
+      <div className="relative space-y-1 pb-3 pt-1">
         {label && (
           <label
-            className="text-left text-sm capitalize font-normal"
+            className="text-left text-sm font-normal capitalize"
             htmlFor={name}
           >
             {label}
@@ -71,7 +69,7 @@ const ImageUpload = React.forwardRef<
                   <Button
                     onClick={handleDeleteImage}
                     variant="outline"
-                    className="hidden rounded-full px-3 bg-white text-bunchpay-600 transition-all duration-300 group-hover:flex"
+                    className="text-bunchpay-600 hidden rounded-full bg-white px-3 transition-all duration-300 group-hover:flex"
                   >
                     <Icon IconComp={Trash} boxSize={4} />
                   </Button>
@@ -93,7 +91,7 @@ const ImageUpload = React.forwardRef<
               <button
                 type="button"
                 onClick={handleLabelClick}
-                className="flex flex-1 h-[250px] place-items-center"
+                className="flex h-[250px] flex-1 place-items-center"
               >
                 <div className="relative mx-auto my-auto flex h-28 w-80 flex-col items-center justify-center px-2 pb-6">
                   <input
@@ -108,7 +106,7 @@ const ImageUpload = React.forwardRef<
                     ref={ref}
                   />
 
-                  <label className="flex w-full cursor-pointer justify-center rounded bg-btn-blue px-2 py-2 text-xs text-[#444]">
+                  <label className="bg-btn-blue flex w-full cursor-pointer justify-center rounded px-2 py-2 text-xs text-[#444]">
                     {placeholder}
                   </label>
                   <div className="pb-1 text-center">
@@ -134,15 +132,15 @@ const ImageUpload = React.forwardRef<
                     {message}
                   </p>
                 </div>
-              );
+              )
             }}
           />
         )}
       </div>
-    );
+    )
   }
-);
+)
 
-ImageUpload.displayName = "ImageUpload";
+ImageUpload.displayName = "ImageUpload"
 
-export default ImageUpload;
+export default ImageUpload

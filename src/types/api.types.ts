@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { QueryFunction, QueryKey } from "@tanstack/react-query"
 import { AxiosRequestHeaders, AxiosResponse, Method } from "axios"
 
