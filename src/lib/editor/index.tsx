@@ -1,3 +1,4 @@
+'use client'
 import React, { useMemo, useState } from 'react'
 import NoteEditor from '@/components/lib/Editor'
 // import {
@@ -34,37 +35,37 @@ import EditorJS, { OutputData } from '@editorjs/editorjs'
 // }))
 
 interface EditorProps {
-  editor: EditorJS
-  updateEditor: (content: OutputData) => void
-  handleSave: () => void
-  previewUrl: string
-  loading: boolean
+ editor: EditorJS
+ updateEditor: (content: OutputData) => void
+ handleSave?: () => void
+ previewUrl: string
+ loading: boolean
 }
 
 const Editor = ({
-  updateEditor,
-  editor,
-  handleSave,
-  previewUrl,
-  loading,
+ updateEditor,
+ editor,
+ handleSave,
+ previewUrl,
+ loading,
 }: EditorProps) => {
-  // const { classes } = useStyles()
+ // const { classes } = useStyles()
 
-  const [value, setValue] = useState('editor')
+ const [value, setValue] = useState('editor')
 
-  const memoizedNoteEditor = useMemo(
-    () => <NoteEditor updateEditor={updateEditor} editor={editor} />,
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    []
-  )
-  // const { ref, toggle, fullscreen } = useFullscreen()
-  // const fullscreen = true
+ const memoizedNoteEditor = useMemo(
+  () => <NoteEditor updateEditor={updateEditor} editor={editor} />,
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  []
+ )
+ // const { ref, toggle, fullscreen } = useFullscreen()
+ // const fullscreen = true
 
-  // const isMobile = false
+ // const isMobile = false
 
-  return (
-    <div>
-      {/* <section
+ return (
+  <div>
+   {/* <section
         // align={'center'}
         // justify={'space-between'}
         className={``}
@@ -121,9 +122,9 @@ const Editor = ({
         </Button.Group>
       </section> */}
 
-      {value === 'editor' ? memoizedNoteEditor : <Preview data={null} />}
-    </div>
-  )
+   {value === 'editor' ? memoizedNoteEditor : <Preview data={null} />}
+  </div>
+ )
 }
 
 // Editor.propTypes = {

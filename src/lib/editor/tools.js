@@ -1,4 +1,3 @@
-import EditorJS, { BlockToolConstructorOptions } from '@editorjs/editorjs'
 import Header from '@editorjs/header'
 import NestedList from '@editorjs/nested-list'
 import ImageTool from '@editorjs/image'
@@ -10,23 +9,16 @@ import Underline from '@editorjs/underline'
 import Warning from '@editorjs/warning'
 import Personality from '@editorjs/personality'
 import Marker from '@editorjs/marker'
-import editorjsColumns from '@calumk/editorjs-columns'
+// import editorjsColumns from '@calumk/editorjs-columns'
 import Paragraph from '@editorjs/paragraph'
 import axios from 'axios'
 // import { Divider } from '@mantine/core'
 import { renderToString } from 'react-dom/server'
-import { ToolConfig } from '@editorjs/editorjs'
-import { CloudinaryResData } from '@/entities/general'
-import { handleAxiosErrors } from '@/utils/handlers'
 
 // Custom Seperator block
-
-interface Tools {
- [toolName: string]: ToolConfig
-}
 class CustomSeparator extends Delimiter {
- constructor({ data, config, api }: BlockToolConstructorOptions) {
-  const options = { data, config, api } as BlockToolConstructorOptions
+ constructor({ data, config, api }) {
+  const options = { data, config, api }
   super(options)
   // Your custom initialization code
  }
@@ -45,8 +37,8 @@ class CustomSeparator extends Delimiter {
  }
 }
 
-function newUpload(file: File) {
- return new Promise<CloudinaryResData>((resolve, reject) => {
+function newUpload(file) {
+ return new Promise((resolve, reject) => {
   const date = Date.now() / 1000
   const formData = new FormData()
   formData.append('file', file)
@@ -64,44 +56,40 @@ function newUpload(file: File) {
     resolve(fileURL)
    })
    .catch((error) => {
-    reject(handleAxiosErrors(error))
+    reject(new Error('Error uploading file to Cloudinary: ' + error))
    })
  })
 }
-// function newAttachmentUpload(file: File) {
-//  return new Promise<CloudinaryResData>((resolve, reject) => {
-//   const formData = new FormData()
-//   formData.append('file', file)
-//   formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET)
-//   formData.append('api_key', import.meta.env.VITE_IMAGE_KEY)
-//   formData.append('timestamp', String(Date.now() / 1000 || 0))
+// function newAttachmentUpload(file) {
+// 	return new Promise((resolve, reject) => {
+// 		const formData = new FormData();
+// 		formData.append("file", file);
+// 		formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+// 		formData.append("api_key", import.meta.env.VITE_IMAGE_KEY);
+// 		formData.append("timestamp", (Date.now() / 1000) | 0);
 
-//   axios
-//    .post<CloudinaryResData>(
-//     'https://api.cloudinary.com/v1_1/reav_hub_/raw/upload',
-//     formData,
-//     {
-//      headers: { 'X-Requested-With': 'XMLHttpRequest' },
-//     }
-//    )
-//    .then((response) => {
-//     const data = response.data
-//     console.log(data)
-//     resolve(data)
-//    })
-//    .catch((error) => {
-//     reject(handleAxiosErrors(error))
-//    })
-//  })
+// 		axios
+// 			.post("https://api.cloudinary.com/v1_1/reav_hub_/raw/upload", formData, {
+// 				headers: { "X-Requested-With": "XMLHttpRequest" },
+// 			})
+// 			.then((response) => {
+// 				const data = response.data;
+// 				console.log(data);
+// 				resolve(data);
+// 			})
+// 			.catch((error) => {
+// 				reject(new Error("Error uploading file to Cloudinary: " + error));
+// 			});
+// 	});
 // }
 // /* eslint-disable-next-line react-refresh/only-export-components */
-function UploadURL(URL: string) {
+function UploadURL(URL) {
  return new Promise((resolve) => {
   resolve(URL)
  })
 }
 
-export const column_tools: Tools = {
+export const column_tools = {
  underline: Underline,
  Marker: {
   class: Marker,
@@ -155,7 +143,7 @@ export const column_tools: Tools = {
  },
 }
 
-export const pro_main_tools: Tools = {
+export const pro_main_tools = {
  underline: Underline,
  Marker: {
   class: Marker,
@@ -230,7 +218,7 @@ export const pro_main_tools: Tools = {
      * @param {File} file - file selected from the device or pasted by drag-n-drop
      * @return {Promise.<{success, file: {url}}>}
      */
-    uploadByFile(file: File) {
+    uploadByFile(file) {
      // your own uploading logic here
      return newUpload(file).then((res) => {
       return {
@@ -247,7 +235,7 @@ export const pro_main_tools: Tools = {
      * @param {string} url - pasted image URL
      * @return {Promise.<{success, file: {url}}>}
      */
-    uploadByUrl(url: string) {
+    uploadByUrl(url) {
      // your ajax request for uploading
      return UploadURL(url).then((res) => {
       return {
@@ -262,31 +250,31 @@ export const pro_main_tools: Tools = {
    },
   },
  },
- //  attaches: {
- //   class: AttachesTool,
- //   config: {
- //    uploader: {
- //     /**
- //      * Upload file to the server and return an uploaded image data
- //      * @param {File} file - file selected from the device or pasted by drag-n-drop
- //      * @return {Promise.<{success, file: {url}}>}
- //      */
- //     uploadByFile(file: File) {
- //      // your own uploading logic here
- //      return newAttachmentUpload(file).then((res) => {
- //       return {
- //        success: 1,
- //        file: {
- //         url: res?.secure_url,
- //         name: res?.original_filename,
- //         title: res?.original_filename,
- //        },
- //       }
- //      })
- //     },
- //    },
- //   },
- //  },
+ attaches: {
+  class: AttachesTool,
+  config: {
+   uploader: {
+    /**
+     * Upload file to the server and return an uploaded image data
+     * @param {File} file - file selected from the device or pasted by drag-n-drop
+     * @return {Promise.<{success, file: {url}}>}
+     */
+    uploadByFile(file) {
+     // your own uploading logic here
+     return newAttachmentUpload(file).then((res) => {
+      return {
+       success: 1,
+       file: {
+        url: res.secure_url,
+        name: res.original_filename,
+        title: res.original_filename,
+       },
+      }
+     })
+    },
+   },
+  },
+ },
  personality: {
   class: Personality,
   config: {
