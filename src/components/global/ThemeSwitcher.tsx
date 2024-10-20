@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
   return null
  }
 
- const teams = [
+ const availableThemes = [
   { id: "dark", icon: Moon },
   { id: "system", icon: Monitor },
   { id: "light", icon: Sun },
@@ -46,20 +46,20 @@ export default function ThemeSwitcher() {
    transition={{ duration: 0.5 }}
   >
    <div className="flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1 shadow-lg">
-    {teams.map((team) => (
+    {availableThemes.map((availableTheme) => (
      <button
-      key={team.id}
-      onClick={() => handleThemeChange(team.id)}
+      key={availableTheme.id}
+      onClick={() => handleThemeChange(availableTheme.id)}
       className={cn(
        "relative rounded-full p-2 transition-all duration-300",
-       theme === team.id
+       theme === availableTheme.id
         ? "bg-white text-gray-900"
         : "text-white hover:bg-white/10"
       )}
      >
-      <team.icon className="h-5 w-5" />
-      <span className="sr-only">{team.id}</span>
-      {theme === team.id && (
+      <availableTheme.icon className="h-5 w-5" />
+      <span className="sr-only">{availableTheme.id}</span>
+      {theme === availableTheme.id && (
        <motion.div
         className="absolute inset-0 z-10 rounded-full bg-white"
         layoutId="activeTeam"

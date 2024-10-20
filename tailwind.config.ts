@@ -15,15 +15,15 @@ const config: Config = {
     background: "var(--background)",
     foreground: "var(--foreground)",
     brand: {
-     bodyText: "#767676",
-     inputText: "#676767", // For input field text
-     bgPrimary: "#FEFEFE", // Primary background color
-     primary: "#7102CE", // Primary brand color
-     textDark: "#4B4B4B", // Dark grey text
-     inputLabel: "#4B4B4B", // Input label color
-     placeholder: "#B1B1B1", // Placeholder text color
-     textLight: "#B1B1B1", // Light grey text
-     border: "#DEDEDE", // Border color for inputs
+     bodyText: "var(--brand-bodyText)",
+     inputText: "var(--brand-inputText)",
+     bgPrimary: "var(--brand-bgPrimary)",
+     primary: "var(--brand-primary)",
+     textDark: "var(--brand-textDark)",
+     inputLabel: "var(--brand-inputLabel)",
+     placeholder: "var(--brand-placeholder)",
+     textLight: "var(--brand-textLight)",
+     border: "var(--brand-border)",
     },
    },
 
