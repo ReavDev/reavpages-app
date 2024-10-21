@@ -1,5 +1,4 @@
 "use client"
-
 import Button from "@/components/button"
 import Heading from "@/components/heading"
 import { Icons } from "@/components/icons"
@@ -139,7 +138,7 @@ const SecurityBadge = ({
 }) => (
  <RadioGroup
   aria-readonly
-  className={`flex w-fit items-center rounded-3xl border-[0.5px] p-[6px] font-jaka text-xs ${isChecked ? "bg-brand-" : "bg-white"} border-[#868686]`}
+  className={`flex w-fit items-center rounded-3xl border-[0.5px] border-[#868686] bg-white p-[6px] font-jaka text-xs`}
  >
   <RadioGroupItem disabled value={rule} id={rule} checked={isChecked} />
   <Label htmlFor={rule} className={`text-xs font-normal text-[#868686]`}>

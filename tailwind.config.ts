@@ -19,6 +19,7 @@ const config: Config = {
      inputText: "var(--brand-inputText)",
      bgPrimary: "var(--brand-bgPrimary)",
      primary: "var(--brand-primary)",
+     primaryHover: "var(--brand-primary-hover)",
      textDark: "var(--brand-textDark)",
      inputLabel: "var(--brand-inputLabel)",
      placeholder: "var(--brand-placeholder)",

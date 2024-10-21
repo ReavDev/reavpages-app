@@ -14,7 +14,7 @@ export const buttonVariants = cva(
   variants: {
    variant: {
     default:
-     "bg-brand-primary text-white hover:bg- focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 active:ring-brand-primary",
+     "bg-brand-primary text-white hover:bg-brand-primaryHover focus:ring-brand-primary focus:ring-2 focus:ring-offset-1 active:ring-brand-primary",
     destructive:
      "bg-destructive text-destructive-foreground hover:bg-destructive/90 ",
 
