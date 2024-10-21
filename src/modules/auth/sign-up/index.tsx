@@ -30,7 +30,7 @@ const SignUpForm = () => {
   "Special Character",
  ]
 
- const [rulesPassed, setRulesPassed] = useState(
+ const [rulesPassed, setRulesPassed] = useState<boolean[]>(
   new Array(securityRules.length).fill(false)
  )
 
@@ -48,6 +48,25 @@ const SignUpForm = () => {
 
  const allRulesPassed = () => {
   return rulesPassed.every((rule) => rule === true)
+ }
+
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = event.target
+  if (name === "password") {
+   validatePassword(value)
+  }
+ }
+
+ const validatePassword = (password: string) => {
+  const newRulesPassed = [
+   password.length >= 6,
+   /[A-Z]/.test(password),
+   /[a-z]/.test(password),
+   /\d/.test(password),
+   /[!@#$%^&*(),.?":{}|<>]/.test(password),
+  ]
+
+  setRulesPassed(newRulesPassed)
  }
 
  return (
@@ -69,19 +88,33 @@ const SignUpForm = () => {
 
    <form className="mt-6 space-y-5" onSubmit={handleSubmit(onSubmit)}>
     <Input
-     placeholder="Enter email address"
+     placeholder={`Enter Email`}
      label="Email"
      inputIcon={Icons.messageIcon}
      {...register("email")}
      errors={errors}
     />
-    <PasswordInput
-     securityRules={securityRules}
-     register={register}
-     errors={errors}
-     rulesPassed={rulesPassed}
-     setRulesPassed={setRulesPassed}
-    />
+    <div className="space-y-2">
+     <Input
+      placeholder="Enter Password"
+      label="Password"
+      type="password"
+      inputIcon={Icons.lockIcon}
+      {...register("password")}
+      onChange={handleChange}
+      errors={errors}
+     />
+     <>
+      <Heading size="h6" className="font-jaka font-medium text-brand-bodyText">
+       Must contain:
+      </Heading>
+      <div className="mr-9 flex w-fit flex-wrap gap-2">
+       {securityRules.map((rule, index) => (
+        <SecurityBadge key={rule} rule={rule} isChecked={rulesPassed[index]} />
+       ))}
+      </div>
+     </>
+    </div>
 
     <Button fullWidth type="submit" disabled={!allRulesPassed()}>
      Continue
@@ -93,67 +126,6 @@ const SignUpForm = () => {
      </Link>
     </p>
    </form>
-  </div>
- )
-}
-
-const PasswordInput = ({
- securityRules,
- register,
- errors,
- rulesPassed,
- setRulesPassed,
-}: {
- securityRules: string[]
- register: any
- errors: any
- rulesPassed: boolean[]
- setRulesPassed: React.Dispatch<React.SetStateAction<boolean[]>>
-}) => {
- const [_, setPassword] = useState("")
-
- const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const newPassword = event.target.value
-  setPassword(newPassword)
-  validatePassword(newPassword)
- }
-
- const validatePassword = (password: string) => {
-  const newRulesPassed = [
-   password.length >= 6,
-   // Check for uppercase
-   /[A-Z]/.test(password),
-   // Check for lowercase
-   /[a-z]/.test(password),
-   // Check for number
-   /\d/.test(password),
-   // Check for special character
-   /[!@#$%^&*(),.?":{}|<>]/.test(password),
-  ]
-
-  setRulesPassed(newRulesPassed)
- }
-
- return (
-  <div className="space-y-2">
-   <Input
-    name="password"
-    placeholder="Enter password"
-    label="Password"
-    type="password"
-    inputIcon={Icons.lockIcon}
-    {...register("password")}
-    onChange={handlePasswordChange}
-    errors={errors}
-   />
-   <Heading size="h6" className="font-jaka font-medium text-brand-bodyText">
-    Must contain:
-   </Heading>
-   <div className="mr-9 flex w-fit flex-wrap gap-2">
-    {securityRules.map((rule, index) => (
-     <SecurityBadge key={rule} rule={rule} isChecked={rulesPassed[index]} />
-    ))}
-   </div>
   </div>
  )
 }
