@@ -36,3 +36,10 @@ export interface CloudinaryResData {
  eager: CloudinaryEagerType[]
  api_key: string
 }
+
+export type ContentType = 'html' | 'text' | 'json'
+
+export interface ReavEditorContent {
+ type: ContentType
+ interval: number
+}
