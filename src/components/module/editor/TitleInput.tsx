@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { ComponentPropsWithRef } from 'react'
 
-interface TitleInputProps extends ComponentPropsWithRef<'input'> {}
+type TitleInputProps = ComponentPropsWithRef<"input">
 
 const TitleInput = ({
  value,

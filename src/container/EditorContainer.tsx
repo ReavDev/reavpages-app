@@ -1,12 +1,12 @@
 'use client'
-import React, { useRef } from 'react'
+
 import { JSONContent } from '@tiptap/react'
 import Editor from '@/lib/editor'
 import TitleInput from '@/components/module/editor/TitleInput'
 import '@/styles/editor.scss'
 
 const EditorContainer = () => {
- const editorHandler = (content: string | JSONContent) => {
+ const editorHandler = (_: string | JSONContent) => {
   // console.log({content});
  }
 

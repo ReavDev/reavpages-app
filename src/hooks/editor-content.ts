@@ -1,22 +1,22 @@
-import { Editor, JSONContent, useEditorState } from '@tiptap/react'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { ReavEditorContent } from '@/entities/general'
-import { useCallback, useEffect, useState } from 'react'
+import { Editor, JSONContent } from "@tiptap/react"
+import { useDebouncedCallback } from "@mantine/hooks"
+import { ReavEditorContent } from "@/entities/general"
+import { useCallback, useEffect, useState } from "react"
 
 export default function useEditorContent(
  editor: Editor | null,
  options: ReavEditorContent
 ) {
- const [value, setValue] = useState<string | JSONContent>('')
+ const [value, setValue] = useState<string | JSONContent>("")
 
  const handleEditorContent = useCallback(() => {
   let content: string | JSONContent
 
   if (!editor) return
 
-  if (options.type === 'html') {
+  if (options.type === "html") {
    content = editor.getHTML()
-  } else if (options.type === 'json') {
+  } else if (options.type === "json") {
    content = editor.getJSON()
   } else {
    content = editor.getText()

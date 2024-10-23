@@ -7,16 +7,15 @@ import { editorConfig } from './tools'
 import { EditorProps } from '@/entities/lib'
 import Toolbar from './Toolbar'
 
-export default function Editor({
- elementClass,
- onChange,
-}: EditorProps<JSONContent>) {
+export default function Editor({ onChange }: EditorProps<JSONContent>) {
  const editor = useEditor(editorConfig())
 
- const content = useEditorContent(editor, { type: 'html', interval: 2000 })
+ const content = useEditorContent(editor, { type: "html", interval: 2000 })
 
  useEffect(() => {
-  content && onChange && onChange(content)
+  if (content && onChange) {
+   onChange(content)
+  }
  }, [content])
 
  return (

@@ -7,11 +7,11 @@
       "error",
       {
         "args": "all",
-        "argsIgnorePattern": true,
+        "argsIgnorePattern": "^_", 
         "caughtErrors": "all",
         "caughtErrorsIgnorePattern": "^_",
         "destructuredArrayIgnorePattern": "^_",
-        "varsIgnorePattern": true,
+        "varsIgnorePattern": "^_",
         "ignoreRestSiblings": true
       }
     ]

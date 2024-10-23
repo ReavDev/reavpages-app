@@ -8,10 +8,10 @@ export interface ToggleableOptions {
   * @default {}
   * @example { class: 'foo' }
   */
- HTMLAttributes: Record<string, any>
+ HTMLAttributes: Record<string, unknown>
 }
 
-declare module '@tiptap/react' {
+declare module "@tiptap/react" {
  interface Commands<ReturnType> {
   toggleableList: {
    /**
@@ -20,7 +20,7 @@ declare module '@tiptap/react' {
     */
    toggleContentList: () => ReturnType
   }
-  toggleableItem: {}
+  // toggleableItem: () =>
  }
 }
 

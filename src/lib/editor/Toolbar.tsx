@@ -1,5 +1,5 @@
-import { memo, useCallback } from 'react'
-import { Editor } from '@tiptap/react'
+import { memo } from "react"
+import { Editor } from "@tiptap/react"
 import {
  DropdownMenu,
  DropdownMenuContent,
@@ -8,11 +8,11 @@ import {
  DropdownMenuLabel,
  DropdownMenuSeparator,
  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu"
 
-import { getEditorTools } from './tools'
-import Image from 'next/image'
-import { Plus } from '../../../public/icons'
+import { getEditorTools } from "./tools"
+import Image from "next/image"
+import { Plus } from "../../../public/icons"
 
 function Toolbar({ editor }: { editor: Editor | null }) {
  if (!editor) return
@@ -35,7 +35,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
        <DropdownMenuGroup>
         {item.tools.map((tool) => {
          return (
-          <DropdownMenuItem onClick={() => tool.action()}>
+          <DropdownMenuItem key={tool.title} onClick={() => tool.action()}>
            <div className="editor-tool-item gap-x-3 px-3 py-1">
             <div className="flex-1">
              <Image src={tool.image} alt={tool.title} />
