@@ -1,296 +1,209 @@
-import EditorJS, { BlockToolConstructorOptions } from '@editorjs/editorjs'
-import Header from '@editorjs/header'
-import NestedList from '@editorjs/nested-list'
-import ImageTool from '@editorjs/image'
-import Table from '@editorjs/table'
-import Delimiter from '@editorjs/delimiter'
-import LinkTool from '@editorjs/link'
-import Quote from '@editorjs/quote'
-import Underline from '@editorjs/underline'
-import Warning from '@editorjs/warning'
-import Personality from '@editorjs/personality'
-import Marker from '@editorjs/marker'
-import editorjsColumns from '@calumk/editorjs-columns'
-import Paragraph from '@editorjs/paragraph'
-import axios from 'axios'
-// import { Divider } from '@mantine/core'
-import { renderToString } from 'react-dom/server'
-import { ToolConfig } from '@editorjs/editorjs'
-import { CloudinaryResData } from '@/entities/general'
-import { handleAxiosErrors } from '@/utils/handlers'
+import { Editor, UseEditorOptions } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Blockquote from '@tiptap/extension-blockquote'
+import BulletList from '@tiptap/extension-bullet-list'
+import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
+import HardBreak from '@tiptap/extension-hard-break'
+import Link from '@tiptap/extension-link'
+import ListItem from '@tiptap/extension-list-item'
+import Paragraph from '@tiptap/extension-paragraph'
+import OrderedList from '@tiptap/extension-ordered-list'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
+import Text from '@tiptap/extension-text'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import {
+ bulletListImg,
+ dividerImg,
+ linkImg,
+ numberedListImg,
+ paragraphImg,
+ quoteImg,
+ simpleTableImg,
+ subHeaderImg,
+ subSubHeaderImg,
+ todoImg,
+ toggleImg,
+ topHeaderImg,
+} from '../../../public/images'
 
-// Custom Seperator block
+const uploadUrl = 'https://api.cloudinary.com/v1_1/reav_hub_/image/upload'
 
-interface Tools {
- [toolName: string]: ToolConfig
-}
-class CustomSeparator extends Delimiter {
- constructor({ data, config, api }: BlockToolConstructorOptions) {
-  const options = { data, config, api } as BlockToolConstructorOptions
-  super(options)
-  // Your custom initialization code
- }
+const extensions = [
+ Document,
+ Paragraph,
+ Text,
+ Heading.configure({
+  levels: [1, 2, 3],
+ }),
+ HardBreak,
+ Blockquote,
+ BulletList,
+ OrderedList,
+ ListItem,
+ HorizontalRule,
+ Link.configure({
+  openOnClick: true,
+  autolink: true,
+  defaultProtocol: 'https',
+ }),
+ Table.configure({
+  resizable: true,
+  allowTableNodeSelection: true,
+ }),
+ TableRow,
+ TableHeader,
+ TableCell,
+ TaskList,
+ TaskItem.configure({
+  nested: true,
+ }),
+]
 
- static get toolbox() {
-  return {
-   icon:
-    '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  }
- }
-
- render() {
-  const separator = document.createElement('div')
-  separator.innerHTML = renderToString(null)
-  return separator
- }
-}
-
-function newUpload(file: File) {
- return new Promise<CloudinaryResData>((resolve, reject) => {
-  const date = Date.now() / 1000
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET)
-  formData.append('api_key', import.meta.env.VITE_IMAGE_KEY)
-  formData.append('timestamp', String(date))
-
-  axios
-   .post('https://api.cloudinary.com/v1_1/reav_hub_/image/upload', formData, {
-    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-   })
-   .then((response) => {
-    const data = response.data
-    const fileURL = data.secure_url
-    resolve(fileURL)
-   })
-   .catch((error) => {
-    reject(handleAxiosErrors(error))
-   })
- })
-}
-// function newAttachmentUpload(file: File) {
-//  return new Promise<CloudinaryResData>((resolve, reject) => {
-//   const formData = new FormData()
-//   formData.append('file', file)
-//   formData.append('upload_preset', import.meta.env.VITE_UPLOAD_PRESET)
-//   formData.append('api_key', import.meta.env.VITE_IMAGE_KEY)
-//   formData.append('timestamp', String(Date.now() / 1000 || 0))
-
-//   axios
-//    .post<CloudinaryResData>(
-//     'https://api.cloudinary.com/v1_1/reav_hub_/raw/upload',
-//     formData,
-//     {
-//      headers: { 'X-Requested-With': 'XMLHttpRequest' },
-//     }
-//    )
-//    .then((response) => {
-//     const data = response.data
-//     console.log(data)
-//     resolve(data)
-//    })
-//    .catch((error) => {
-//     reject(handleAxiosErrors(error))
-//    })
-//  })
-// }
-// /* eslint-disable-next-line react-refresh/only-export-components */
-function UploadURL(URL: string) {
- return new Promise((resolve) => {
-  resolve(URL)
- })
-}
-
-export const column_tools: Tools = {
- underline: Underline,
- Marker: {
-  class: Marker,
-  shortcut: 'CMD+SHIFT+M',
- },
- header: {
-  class: Header,
-  shortcut: 'CMD+SHIFT+H',
-  inlineToolbar: true,
-  config: {
-   placeholder: 'Enter a header',
-   levels: [1, 2, 3, 4, 5, 6],
-   defaultLevel: 2,
+export const editorConfig = (content?: string): UseEditorOptions => ({
+ extensions,
+ content: content || '<p>Hello</p>',
+ //  autofocus: true,
+ editorProps: {
+  attributes: {
+   class:
+    'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-1 focus:outline-none',
   },
  },
- paragraph: {
-  class: Paragraph,
-  inlineToolbar: true,
- },
- list: {
-  class: NestedList,
-  inlineToolbar: true,
-  config: {
-   placeholder: 'Start a list',
-   defaultStyle: 'unordered',
-  },
- },
- linkTool: {
-  class: LinkTool,
-  config: {
-   endpoint: 'http://localhost:8008/fetchUrl',
-  },
- },
- separator: CustomSeparator,
+})
 
- quote: {
-  class: Quote,
-  inlineToolbar: true,
-  config: {
-   quotePlaceholder: 'Enter a quote',
-   captionPlaceholder: "Quote's author",
-  },
- },
- warning: {
-  class: Warning,
-  inlineToolbar: true,
-  config: {
-   titlePlaceholder: 'Title',
-   messagePlaceholder: 'Message',
-  },
- },
-}
-
-export const pro_main_tools: Tools = {
- underline: Underline,
- Marker: {
-  class: Marker,
-  shortcut: 'CMD+SHIFT+M',
- },
- header: {
-  class: Header,
-  shortcut: 'CMD+SHIFT+H',
-  inlineToolbar: true,
-  config: {
-   placeholder: 'Enter a header',
-   levels: [1, 2, 3, 4, 5, 6],
-   defaultLevel: 2,
-  },
- },
- paragraph: {
-  class: Paragraph,
-  inlineToolbar: true,
- },
- list: {
-  class: NestedList,
-  inlineToolbar: true,
-  config: {
-   placeholder: 'Start a list',
-   defaultStyle: 'unordered',
-  },
- },
- linkTool: {
-  class: LinkTool,
-  config: {
-   endpoint: 'http://localhost:3002/fetchUrl',
-  },
- },
- table: {
-  class: Table,
- },
- separator: CustomSeparator,
-
- columns: {
-  class: editorjsColumns,
-  config: {
-   EditorJsLibrary: EditorJS, // Pass the library instance to the columns instance.
-   tools: column_tools, // IMPORTANT! ref the column_tools
-  },
- },
-
- quote: {
-  class: Quote,
-  inlineToolbar: true,
-  config: {
-   quotePlaceholder: 'Enter a quote',
-   captionPlaceholder: "Quote's author",
-  },
- },
- warning: {
-  class: Warning,
-  inlineToolbar: true,
-  config: {
-   titlePlaceholder: 'Title',
-   messagePlaceholder: 'Message',
-  },
- },
- image: {
-  class: ImageTool,
-  config: {
-   /**
-    * Custom uploader
-    */
-   uploader: {
-    /**
-     * Upload file to the server and return an uploaded image data
-     * @param {File} file - file selected from the device or pasted by drag-n-drop
-     * @return {Promise.<{success, file: {url}}>}
-     */
-    uploadByFile(file: File) {
-     // your own uploading logic here
-     return newUpload(file).then((res) => {
-      return {
-       success: 1,
-       file: {
-        url: res,
-       },
-      }
-     })
+export function getEditorTools(editor: Editor) {
+ return [
+  {
+   title: 'Basic blocks',
+   tools: [
+    {
+     title: 'Text',
+     desc: 'Just start writing with plain text.',
+     image: paragraphImg,
+     action: () => editor.chain().focus().insertContent('<p></p>').run(),
     },
-
-    /**
-     * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
-     * @param {string} url - pasted image URL
-     * @return {Promise.<{success, file: {url}}>}
-     */
-    uploadByUrl(url: string) {
-     // your ajax request for uploading
-     return UploadURL(url).then((res) => {
-      return {
-       success: 1,
-       file: {
-        url: res,
-        // any other image data you want to store, such as width, height, color, extension, etc
-       },
-      }
-     })
+    {
+     title: 'To-do list',
+     desc: 'Track task with a to-do list.',
+     image: todoImg,
+     action: () => {
+      editor
+       .chain()
+       .focus()
+       .insertContent({
+        type: 'taskList',
+        content: [
+         {
+          type: 'taskItem',
+          attrs: { checked: false }, // unchecked task
+          content: [
+           {
+            type: 'paragraph',
+            text: 'Task 1',
+           },
+          ],
+         },
+        ],
+       })
+       .run()
+     },
     },
-   },
+    {
+     title: 'H1',
+     desc: 'Big section heading.',
+     image: topHeaderImg,
+     action: () => {
+      editor.chain().focus().insertContent('<h1></h1>').run()
+     },
+    },
+    {
+     title: 'H2',
+     desc: 'Medium section heading.',
+     image: subHeaderImg,
+     action: () => editor.chain().focus().insertContent('<h2></h2>').run(),
+    },
+    {
+     title: 'H3',
+     desc: 'Small section heading.',
+     image: subSubHeaderImg,
+     action: () => editor.chain().focus().insertContent('<h3></h3>').run(),
+    },
+    {
+     title: 'Table',
+     desc: 'Add simple tabular content to your page',
+     image: simpleTableImg,
+     action: () =>
+      editor
+       .chain()
+       .focus()
+       .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+       .run(),
+    },
+    {
+     title: 'Bulleted list',
+     desc: 'Create a list with simple bullet.',
+     image: bulletListImg,
+     action: () => editor.chain().focus().toggleBulletList().run(),
+    },
+    {
+     title: 'Numbered list',
+     desc: 'Create a list with numbering.',
+     image: numberedListImg,
+     action: () => editor.chain().focus().toggleOrderedList().run(),
+    },
+    // {
+    //  title: 'Toggle list',
+    //  desc: 'Toggle can hide and show contents inside.',
+    //  image: toggleImg,
+    //  action: () => editor.chain().focus().sinkListItem('listItem').run(),
+    // },
+    {
+     title: 'Quote',
+     desc: 'Capture a quote.',
+     image: quoteImg,
+     action: () => editor.chain().focus().setBlockquote().run(),
+    },
+    {
+     title: 'Divider',
+     desc: 'visually divide blocks.',
+     image: dividerImg,
+     action: () => editor.chain().focus().setHorizontalRule().run(),
+    },
+    {
+     title: 'Link',
+     desc: 'LInk to an existing page.',
+     image: linkImg,
+     action: () => {
+      setLink(editor)
+     },
+    },
+   ],
   },
- },
- //  attaches: {
- //   class: AttachesTool,
- //   config: {
- //    uploader: {
- //     /**
- //      * Upload file to the server and return an uploaded image data
- //      * @param {File} file - file selected from the device or pasted by drag-n-drop
- //      * @return {Promise.<{success, file: {url}}>}
- //      */
- //     uploadByFile(file: File) {
- //      // your own uploading logic here
- //      return newAttachmentUpload(file).then((res) => {
- //       return {
- //        success: 1,
- //        file: {
- //         url: res?.secure_url,
- //         name: res?.original_filename,
- //         title: res?.original_filename,
- //        },
- //       }
- //      })
- //     },
- //    },
- //   },
- //  },
- personality: {
-  class: Personality,
-  config: {
-   endpoint: 'http://localhost:8008/uploadFile',
-  },
- },
+ ]
+}
+
+function setLink(editor: Editor) {
+ const previousUrl = editor.getAttributes('link').href
+ const url = window.prompt('URL', previousUrl)
+
+ // cancelled
+ if (url === null) {
+  return
+ }
+
+ // empty
+ if (url === '') {
+  editor.chain().focus().extendMarkRange('link').unsetLink().run()
+
+  return
+ }
+
+ // update link
+ editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
 }
