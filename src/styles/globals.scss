@@ -5,6 +5,11 @@
 @layer base {
  :root {
   --radius: 0.5rem;
+
+  // COLORS
+  --gray-50: 192 192 192;
+  --gray-100: 117 117 117;
+  --gray-900: 2 2 2;
  }
 }
 
@@ -20,7 +25,24 @@
  }
 }
 
-#reavdev {
- background-size: 200% 200%;
- animation: motionBG 5s ease infinite;
+@layer utilities {
+  .container {
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: 100%;
+  }
 }
+
+#reavdev {
+  background-size: 200% 200%;
+  animation: motionBG 5s ease infinite;
+  }
+  
+  div.prose {
+    min-height: 75dvh;
+    width: 100%;
+  }
+
+  div.prose:focus {
+    outline-color: transparent;
+  }
