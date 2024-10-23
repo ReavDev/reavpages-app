@@ -2,12 +2,14 @@
 import type { Config } from "tailwindcss"
 
 const config: Config = {
- darkMode: ["class"],
+ darkMode: ['class'],
  content: [
-  "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-  "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+  './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+  './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+  './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  './src/container/**/*.{js,ts,jsx,tsx,mdx}',
+  './src/lib/**/*.{js,ts,jsx,tsx,mdx}',
   "./src/modules/**/*.{js,ts,jsx,tsx,mdx}",
-  "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
  ],
  theme: {
   extend: {
@@ -29,6 +31,11 @@ const config: Config = {
      textLight: "var(--brand-textLight)",
      border: "var(--brand-border)",
     },
+    gray: {
+      50: 'rgb(var(--gray-50) / 1)',
+      100: 'rgb(var(--gray-100) / 1)',
+      900: 'rgb(var(--gray-900) / 1)',
+     },
    },
 
    borderRadius: {
