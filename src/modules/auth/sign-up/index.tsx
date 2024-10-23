@@ -71,7 +71,8 @@ const SignUpForm = () => {
  return (
   <div>
    <Heading size="h6" className="-mt-2 mb-5 text-[#1E1E1E]">
-    Sign up now and start with a free 20-page plan!
+    Sign up now and start with a free
+    <span className="bg-plan-bg bg-cover bg-center">20-page plan!</span>
    </Heading>
 
    <Button

@@ -11,6 +11,9 @@ const config: Config = {
  ],
  theme: {
   extend: {
+   backgroundImage: {
+    "plan-bg": "url('/assets/vector.svg')",
+   },
    colors: {
     background: "var(--background)",
     foreground: "var(--foreground)",
